@@ -8,7 +8,7 @@ steps:
       CYPRESS_baseUrl:https://app.unidoshdev.com
     commands:
       - $(npm bin)/cypress install
-      - $(npm bin)/cypress run --spec cypress/integration/unidosh/**/*
+      - $(npm bin)/cypress run --browser chrome --spec cypress/integration/unidosh/**/*
 trigger:
   branch:
     - master
