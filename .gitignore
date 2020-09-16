@@ -1,2 +1,5 @@
 /node_modules
 /cypress/videos
+/cypress/screenshots/unidosh/
+/mochawesome-report
+/TestReport

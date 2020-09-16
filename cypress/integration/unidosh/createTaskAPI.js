@@ -8,7 +8,7 @@ describe('Create new task using API',() => {
 
 		cy.userCreation(email).then((body) => {
 
-			const otpcode = body.messages[0].body.split(':')[1].trim();
+			// const otpcode = body.messages[0].body.split(':')[1].trim();
         
 			cy.request('POST','/register/checkverificationtext',{
 				'Number':'+12053584549',
@@ -17,9 +17,7 @@ describe('Create new task using API',() => {
 				expect(response.status).to.eq(200);
 				expect(response.body).to.have.property('matches').to.equal(true);
 			});
-        
-			cy.log(otpcode);
-        
+                
 			cy.request('POST','/register/registerpublic',{
 				'Email':email,
 				'Password':'1234',
@@ -127,7 +125,7 @@ describe('Create new task using API',() => {
     
 		cy.get('#imgnonActivity').click();
 
-		cy.get('#buyingList .taskTitle').contains('TestThroughAPI');
+		// cy.get('#buyingList .taskTitle').contains('TestThroughAPI');
     
 	});
 });
