@@ -7,7 +7,20 @@ steps:
     commands:
       - npm ci
       - npx cypress run --browser chrome --spec cypress/integration/unidosh/**/*
-trigger:
+when:
   branch:
     - master
-    - stable*
+  event: push 
+
+
+create_cronjob_dev:
+  environment:
+    - JOB_NAME="unitaskr-tests"
+    - CRON_SCHEDULE="10 0-23/1 * * 1-5"
+  commands:
+    - export CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
+    - npm ci
+    - npx cypress run --browser chrome --spec cypress/integration/unidosh/**/*
+    when:
+      branch: master
+      event: push
