@@ -1,0 +1,15 @@
+kind: pipeline
+name: run_tests
+
+steps:
+  - name: testing
+    image: cypress/browsers:chrome69
+    environment:
+      CYPRESS_baseUrl:https://app.unidoshdev.com
+    commands:
+      - $(npm bin)/cypress install
+      - $(npm bin)/cypress run --spec cypress/integration/unidosh/**/*
+trigger:
+  branch:
+    - master
+    - stable*
