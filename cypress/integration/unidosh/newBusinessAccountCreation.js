@@ -14,7 +14,7 @@ describe('Create new Business account using twillio Magic Number',() => {
 
 		cy.userCreation(randomemail).then((body) => {
 
-			otpcode = body.messages[0].body.split(':')[1].trim();
+			// otpcode = body.messages[0].body.split(':')[1].trim();
 
 			cy.request('POST','/register/checkverificationtext',{
 				'Number':'+12053584549',
@@ -24,7 +24,6 @@ describe('Create new Business account using twillio Magic Number',() => {
 				expect(response.body).to.have.property('matches').to.equal(true);
 			});
 
-			cy.log(otpcode);
             cy.log(randomemail);
             
 

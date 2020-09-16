@@ -28,7 +28,6 @@ describe('Create new account using twillio Magic Number',() => {
 				expect(response.body).to.have.property('matches').to.equal(true);
 			});
     
-			cy.log(otpcode);
             cy.log(randomemail);
             
             cy.fixture('student/student.json').then((studentData) => {
