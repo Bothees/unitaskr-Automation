@@ -1,0 +1,988 @@
+{
+  "stats": {
+    "suites": 13,
+    "tests": 17,
+    "passes": 8,
+    "pending": 1,
+    "failures": 8,
+    "start": "2020-09-08T20:18:50.541Z",
+    "end": "2020-09-08T20:18:50.541Z",
+    "duration": 275333,
+    "testsRegistered": 17,
+    "passPercent": 47.05882352941177,
+    "pendingPercent": 5.882352941176471,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b4c9d305-9ee5-4d31-bab9-0af270792683",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createBusinessTaskUI.js",
+      "file": "cypress/integration/unidosh/createBusinessTaskUI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "34a6ab63-3482-41cc-8f56-a23b6bb57648",
+          "title": "Create new Business Task and post",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create and post new Business task as Business user",
+              "fullTitle": "Create new Business Task and post Create and post new Business task as Business user",
+              "timedOut": null,
+              "duration": 25833,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\nvar category = ['Social Media', 'Web Dev', 'General Admin', 'Influencers', 'Design', 'Promo Staff', 'Photography', 'Blogging', 'Something Else'];\ncy.get('#BusinessCategories li #title').each(function (title, index) {\n  cy.wrap(title).should('contain.text', category[index]);\n});\ncy.get('#BusinessCategories li #title').eq(3).click();\ncy.get('#txtTitle').clear().type('InfluencerTask');\ncy.get('#txtDescription').type('This is for testing the app');\ncy.get('#txtNewTaskRequirement').type('Artificial Intelligence');\ncy.get('span[data-target=\"newTaskRequirementSubmitButton\"]').click();\ncy.get('.bottomRightActionLabel').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Where & When');\ncy.get('#locationButton .toggleButton').eq(1).click();\ncy.get('#txtDueDT').click();\ncy.get('.today.active').click();\ncy.get('.bottomRightActionLabel').click();\ncy.get('#taskerCounter').clear().type('500');\ncy.get('#txtBudget').type(5);\ncy.get('#postTaskButton').click();\ncy.get('.postjobContent').click();\ncy.wait(500);\ncy.get('.tabHolder li').filter('.active').find('span').should('contain', 'Posted');\ncy.get('#buyingList .taskItemHolder').should('have.length.greaterThan', 1);",
+              "err": {},
+              "uuid": "c99839e5-2822-4b02-b497-41368ab9de9c",
+              "parentUUID": "34a6ab63-3482-41cc-8f56-a23b6bb57648",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c99839e5-2822-4b02-b497-41368ab9de9c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25833,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "0b5b5edc-d16d-4989-8030-a2188c7d221e",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createTaksAPI.js",
+      "file": "cypress/integration/unidosh/createTaksAPI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d2925fdd-6dfe-4aca-ab27-c48769fd205e",
+          "title": "Create new task using API",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Add new task through API",
+              "fullTitle": "Create new task using API Add new task through API",
+              "timedOut": null,
+              "duration": 32061,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "var number;\nvar date = (0, _utils.getFutureDate)();\ncy.log(date);\ncy.request('POST', '/jobs/addtask', {\n  \"TaskId\": 0,\n  \"CategoryId\": 4,\n  \"Title\": \"TestThroughAPI\",\n  \"Description\": \"This is for testing through API\",\n  \"Images\": [],\n  \"GoogleLocation\": \"\",\n  \"Location\": \"Essex\",\n  \"Lat\": \"\",\n  \"Lon\": \"\",\n  \"LocationType\": 1,\n  \"DueDT\": \"\",\n  \"Budget\": 5,\n  \"BudgetType\": 1,\n  \"TaskerCount\": \"1\",\n  \"Duration\": \"\",\n  \"TaskRequirement1\": \"Testinggdgd\",\n  \"IsTaskPosted\": false,\n  \"IsImageUpdated\": false\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('success').to.equal(true);\n  var respBody = response.body;\n  number = respBody['id'];\n  cy.log(number);\n  var result = JSON.parse(JSON.stringify(response.body.data));\n  console.log(result);\n  var usrId = result.userId;\n  console.log(usrId);\n});\ncy.request('POST', '/publicjobs/BudgetPerTask', {\n  \"Budget\": \"5\",\n  \"BudgetType\": 1,\n  \"Duration\": \"\",\n  \"TaskerCount\": \"1\"\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('duration').to.equal(1);\n});\ncy.request('POST', '/jobs/addtask', {\n  \"TaskId\": number,\n  \"CategoryId\": 4,\n  \"Title\": \"TestThroughAPI\",\n  \"Description\": \"This is for testing through API\",\n  \"Images\": [],\n  \"GoogleLocation\": \"Romford RM2, UK\",\n  \"Location\": \"Essex\",\n  \"Lat\": 51.6042029,\n  \"Lon\": 0.2300152000000001,\n  \"LocationType\": 1,\n  \"DueDT\": date,\n  \"Budget\": 5,\n  \"BudgetType\": 1,\n  \"TaskerCount\": \"1\",\n  \"Duration\": \"\",\n  \"TaskRequirement1\": \"Technical\",\n  \"IsTaskPosted\": true,\n  \"IsImageUpdated\": false\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('success').to.equal(true);\n  expect(response.body).to.have.property('taskPosted').to.equal(true);\n});\ncy.wait(1500);\ncy.visit('/');\ncy.get('#Onboardingclose').click();\ncy.get('.skipbutton').click();\ncy.get('#imgnonActivity').click();\ncy.get('#buyingList .taskTitle').contains('TestThroughAPI');",
+              "err": {
+                "message": "CypressError: `cy.request()` timed out waiting `30000ms` for a response from your server.\n\nThe request we sent was:\n\nMethod: POST\nURL: https://app.unidoshdev.com/register/registerpublic\n\nNo response was received within the timeout.\n\nhttps://on.cypress.io/request\n\nBecause this error occurred during a `before all` hook we are skipping the remaining tests in the current suite: `Create new task using API`",
+                "estack": "CypressError: `cy.request()` timed out waiting `30000ms` for a response from your server.\n\nThe request we sent was:\n\nMethod: POST\nURL: https://app.unidoshdev.com/register/registerpublic\n\nNo response was received within the timeout.\n\nhttps://on.cypress.io/request\n\nBecause this error occurred during a `before all` hook we are skipping the remaining tests in the current suite: `Create new task using API`\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:158050:19\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:5078:41\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:8069:18)\n    at _drainQueueStep (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4663:12)\n    at _drainQueue (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4656:9)\n    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4672:5)\n    at Async.drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4542:14)\nFrom Your Spec Code:\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/createTaksAPI.js:17:9)",
+                "diff": null
+              },
+              "uuid": "3bdf2f97-42d8-480e-bb47-9e7086557717",
+              "parentUUID": "d2925fdd-6dfe-4aca-ab27-c48769fd205e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "3bdf2f97-42d8-480e-bb47-9e7086557717"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 32061,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "31e123d1-3189-4dc9-9d41-a27531415eab",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createTaskUI.js",
+      "file": "cypress/integration/unidosh/createTaskUI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1dc4e362-d9f5-4ec8-8e15-0f29156a2ac8",
+          "title": "Create new Task and post",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create and post new task as Home user",
+              "fullTitle": "Create new Task and post Create and post new task as Home user",
+              "timedOut": null,
+              "duration": 36888,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('https://app.unidoshdev.com/login');\ncy.contains('Home & Business').click();\ncy.contains('LOG IN').click({\n  force: true\n});\ncy.get('#txtLogInEmail').type('bothees@gmail.com');\ncy.get('#txtLogInPassword').type('Test123$');\ncy.get('#btn_Login').click();\ncy.get('.category-btn b').should('contain', 'Bothi-test');\nvar category = ['Delivery', 'Cleaning', 'Extra Hands', 'Flat Pack', 'Tech Help', 'Organising', 'Pets', 'Child Care', 'Something Else'];\ncy.get('#HomeCategories li #title').each(function (title, index) {\n  cy.wrap(title).should('contain.text', category[index]);\n});\ncy.get('#HomeCategories li #title').eq(0).click();\ncy.get('#txtTitle').clear().type('TestingTask');\ncy.get('#txtDescription').type('This is for testing the app');\ncy.get('#txtNewTaskRequirement').type('Testingssgsgsgs');\ncy.get('span[data-target=\"newTaskRequirementSubmitButton\"]').click();\ncy.get('#postTaskButton').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Where & When');\ncy.get('#txtLocation').type('RM3');\ncy.get('.pac-container .pac-item').eq(0).click();\ncy.get('#txtDueDT').click();\ncy.get('.today.active').click();\ncy.get('#postTaskButton').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Budget');\ncy.get('#postTaskButton').click(); // cy.get('.total-payment').should('have.attr','data-page')\n// cy.get('#drpPaymentMethodall').select('Add new payment method')\n// cy.wait(500)\n// const getIframeDocument = () => {\n//     return cy\n//     .get('iframe[name=\"__privateStripeFrame13\"]')\n//     // Cypress yields jQuery element, which has the real\n//     // DOM element under property \"0\".\n//     // From the real DOM iframe element we can get\n//     // the \"document\" element, it is stored in \"contentDocument\" property\n//     // Cypress \"its\" command can access deep properties using dot notation\n//     // https://on.cypress.io/its\n//     .its('0.contentDocument').should('exist')\n//   }    \n//   const getIframeBody = () => {\n//     // get the document\n//     return getIframeDocument()\n//     // automatically retries until body is loaded\n//     .its('body').should('not.be.undefined')\n//     // wraps \"body\" DOM element to allow\n//     // chaining more Cypress commands, like \".find(...)\"\n//     .then(cy.wrap)\n//   }\n// //   cy.wait(5000)\n// //   cy.get('.__PrivateStripeElement > iframe').then($element => {\n// //     const $body = $element.contents().find('body')\n// //     let stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"cardnumber\"]').type('5555555555554444')\n// //     stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"exp-date\"]').click().type('0121')\n// //     stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"cvc\"]').click().type('111')\n// //   })  \n// getIframeBody().find('input[name=\"cardnumber\"]').click({force:true}).type('5555555555554444',{force:true})\n// getIframeBody().find('input[name=\"exp-date\"]').click().type('0121')\n// getIframeBody().find('input[name=\"cvc\"]').click().type('111')\n// cy.get('.submitPaymentButton').click({force:true})\n// cy.get('#drpPaymentMethodall').select('Card ending 4444')\n// cy.get('.btn-primary').click()\ncy.get('.congo-tasker').should('contain.text', 'Bothi-test');\ncy.get('.postjobContent').click();\ncy.wait(500);\ncy.get('.tabHolder li').filter('.active').find('span').should('contain', 'Posted');\ncy.get('#buyingList .taskItemHolder').should('have.length.greaterThan', 1);",
+              "err": {},
+              "uuid": "8b349962-20d1-47bd-90c6-ad134d11ecf8",
+              "parentUUID": "1dc4e362-d9f5-4ec8-8e15-0f29156a2ac8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8b349962-20d1-47bd-90c6-ad134d11ecf8"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 36888,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "fd5a7e86-1bc4-4440-bf11-16b7b8ea75f8",
+          "title": "Database connection to get values",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Get data from DB",
+              "fullTitle": "Database connection to get values Get data from DB",
+              "timedOut": null,
+              "duration": 10643,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.task('queryDb', 'SELECT * FROM `Unidosh`.`Tasks`').then(function (rows) {\n  console.log(rows);\n  for (var i = 0; i < rows.length; i++) {\n    var row = rows[i];\n    console.log(row.Description);\n    console.log(row.BudgetType);\n  }\n});\ncy.task('queryDb', 'SELECT * FROM `Unidosh`.`Users`').then(function (rows) {\n  console.log(rows);\n  for (var i = 0; i < rows.length; i++) {\n    var row = rows[i];\n    console.log(row.FirstName);\n    console.log(row.LastName);\n    console.log(row.BusinessName);\n  }\n});",
+              "err": {
+                "message": "CypressError: `cy.task('queryDb')` failed with the following error:\n\n> connect ETIMEDOUT",
+                "estack": "CypressError: `cy.task('queryDb')` failed with the following error:\n\n> connect ETIMEDOUT\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:158710:19\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:8069:18)\n    at _drainQueueStep (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4663:12)\n    at _drainQueue (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4656:9)\n    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4672:5)\n    at Async.drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4542:14)\nFrom Your Spec Code:\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/createTaskUI.js:83:8)\n\nFrom Node.js Internals:\n  Error: connect ETIMEDOUT\n      at Connection._handleConnectTimeout (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/Connection.js:409:13)\n      at Object.onceWrapper (events.js:299:28)\n      at Socket.emit (events.js:210:5)\n      at Socket._onTimeout (net.js:468:8)\n      at listOnTimeout (internal/timers.js:531:17)\n      at processTimers (internal/timers.js:475:7)\n  --------------------\n      at Protocol._enqueue (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/protocol/Protocol.js:144:48)\n      at Protocol.handshake (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/protocol/Protocol.js:51:23)\n      at Connection.connect (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/Connection.js:116:18)\n      at queryTestDb (/Users/bothi/unidosh-Automation/cypress/plugins/index.js:48:14)\n      at queryDb (/Users/bothi/unidosh-Automation/cypress/plugins/index.js:66:14)\n      at invoke (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/task.js:41:14)\n      at /Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:41:14\n      at tryCatcher (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/util.js:16:23)\n      at Function.Promise.attempt.Promise.try (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/method.js:39:29)\n      at Object.wrapChildPromise (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:40:23)\n      at Object.wrap (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/task.js:47:8)\n      at execute (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/run_plugins.js:142:12)\n      at EventEmitter.<anonymous> (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/run_plugins.js:235:5)\n      at EventEmitter.emit (events.js:210:5)\n      at process.<anonymous> (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:19:22)\n      at process.emit (events.js:210:5)",
+                "diff": null
+              },
+              "uuid": "806e9687-047a-4195-bd54-96e484753e31",
+              "parentUUID": "fd5a7e86-1bc4-4440-bf11-16b7b8ea75f8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "806e9687-047a-4195-bd54-96e484753e31"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 10643,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "7407a310-bec2-437b-a1f5-c15688f46bdc",
+          "title": "notifications",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be enabled",
+              "fullTitle": "notifications should be enabled",
+              "timedOut": null,
+              "duration": 40,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "expect((0, _cypressBrowserPermissions.isPermissionAllowed)(\"notifications\")).to.be[\"true\"];\nexpect((0, _cypressBrowserPermissions.isPermissionAllowed)(\"geolocation\")).to.be[\"true\"];",
+              "err": {},
+              "uuid": "fc3f378c-9858-4b3e-be5c-e588b68dfb35",
+              "parentUUID": "7407a310-bec2-437b-a1f5-c15688f46bdc",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fc3f378c-9858-4b3e-be5c-e588b68dfb35"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 40,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "c1e0717f-9d6b-46f6-b529-fe6d4d99ec51",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newHomeAccountCreation.js",
+      "file": "cypress/integration/unidosh/newHomeAccountCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "15a95012-fe44-4178-8290-6c9d31471f06",
+          "title": "Create new Home account using twillio Magic Number",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "New Home account creation",
+              "fullTitle": "Create new Home account using twillio Magic Number New Home account creation",
+              "timedOut": null,
+              "duration": 17993,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "Cypress.Cookies.debug(true);\nemail = (0, _utils.randomEmail)();\ncy.userCreation(email).then(function (body) {\n  otpcode = body.messages[0].body.split(':')[1].trim();\n  cy.request('POST', '/register/checkverificationtext', {\n    \"Number\": \"+12053584549\",\n    \"Code\": otpcode\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('matches').to.equal(true);\n  });\n  cy.log(otpcode);\n  cy.request('POST', '/register/registerpublic', {\n    \"Email\": email,\n    \"Password\": \"1234\",\n    \"FirstName\": \"Home-Bothi\",\n    \"LastName\": \"Test\",\n    \"ReferralCode\": \"\",\n    \"Mobile\": \"+12053584549\",\n    \"GoogleAccessKey\": \"\",\n    \"FacebookAccessKey\": \"\",\n    \"SocialProfilePictureUrl\": \"\",\n    \"ProfilePictureBase64\": \"\",\n    \"verificationCode\": otpcode,\n    \"DeviceToken\": \"\",\n    \"DeviceType\": 0,\n    \"SecurityEmailtoken\": \"\"\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('success').to.equal(true);\n  });\n});\ncy.visit('/login'); // cy.get('#txtLogInEmail').type(randomemail)\n// cy.get('#txtLogInPassword').type('1234')\n// cy.get('#btn_Login').submit()\ncy.get('#Onboardingclose').click();\ncy.get('.skipbutton').click();\ncy.get('.category-btn').should('contain', 'Test');\ncy.get('#home').should('have.class', 'active');\ncy.get('#HomeCategories li').should('have.length', 9);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: expected '<div.category-btn.cursor-pointer>' to contain 'Test'",
+                "estack": "AssertionError: Timed out retrying: expected '<div.category-btn.cursor-pointer>' to contain 'Test'\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/newHomeAccountCreation.js:48:29)",
+                "diff": null
+              },
+              "uuid": "9dcee90b-fcb8-4ddc-bcc8-c2ea804edf9b",
+              "parentUUID": "15a95012-fe44-4178-8290-6c9d31471f06",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "9dcee90b-fcb8-4ddc-bcc8-c2ea804edf9b"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 17993,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "257f04dc-332f-4511-af9c-e83c514533a7",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newStudentAccountCreation.js",
+      "file": "cypress/integration/unidosh/newStudentAccountCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "889fa91a-e13d-4761-98a4-7f129909f2de",
+          "title": "Create new account using twillio Magic Number",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "New Student account creation",
+              "fullTitle": "Create new account using twillio Magic Number New Student account creation",
+              "timedOut": null,
+              "duration": 33481,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "var num = (0, _utils.randomNumber)();\nCypress.Cookies.debug(true);\nrandomemail = \"Auto-test\" + num + \"@gmail.com\";\ncy.userCreation(randomemail).then(function (body) {\n  cy.wait(2000);\n  otpcode = body.messages[0].body.split(':')[1].trim();\n  cy.request('POST', '/register/checkverificationtext', {\n    \"Number\": \"+12053584549\",\n    \"Code\": otpcode\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('matches').to.equal(true);\n  });\n  cy.log(otpcode);\n  cy.log(randomemail);\n  cy.request('POST', '/register/registerstudent', {\n    \"Email\": randomemail,\n    \"Password\": \"1234\",\n    \"FirstName\": \"Student-Bothi\" + num,\n    \"LastName\": \"Test\",\n    \"ReferralCode\": \"\",\n    \"Mobile\": \"+12053584549\",\n    \"University\": \"Oxford\",\n    \"Study\": \"Test\",\n    \"Hometown\": \"Romford\",\n    \"StudyType\": \"School\",\n    \"DateOfBirth\": \"01/01/95\",\n    \"GoogleAccessKey\": \"\",\n    \"FacebookAccessKey\": \"\",\n    \"SocialProfilePictureUrl\": \"\",\n    \"Alerts\": \"4\",\n    \"ProfilePictureBase64\": \"\",\n    \"verificationCode\": otpcode,\n    \"DeviceToken\": \"\",\n    \"DeviceType\": 0,\n    \"SecurityEmailtoken\": \"\",\n    \"HasEmailAlerts\": true,\n    \"HasPushAlerts\": true,\n    \"MainLocation\": \"London, UK\",\n    \"MainLocationLat\": 51.5073509,\n    \"MainLocationLon\": -0.1277583,\n    \"MainLocationName\": \"London\",\n    \"ShouterInstagram\": \"\",\n    \"ShouterAlertId\": 0\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('success').to.equal(true);\n  });\n}); // cy.visit('/login')\n// cy.get('#Onboardingclose').click()\n// cy.get('.skipbutton').click()\n// cy.get('.student-home .title').should('contain','Tasks')",
+              "err": {
+                "message": "CypressError: `cy.request()` timed out waiting `30000ms` for a response from your server.\n\nThe request we sent was:\n\nMethod: POST\nURL: https://app.unidoshdev.com/register/registerstudent\n\nNo response was received within the timeout.\n\nhttps://on.cypress.io/request",
+                "estack": "CypressError: `cy.request()` timed out waiting `30000ms` for a response from your server.\n\nThe request we sent was:\n\nMethod: POST\nURL: https://app.unidoshdev.com/register/registerstudent\n\nNo response was received within the timeout.\n\nhttps://on.cypress.io/request\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:158050:19\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:5078:41\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:8069:18)\n    at _drainQueueStep (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4663:12)\n    at _drainQueue (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4656:9)\n    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4672:5)\n    at Async.drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4542:14)\nFrom Your Spec Code:\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/newStudentAccountCreation.js:21:9)",
+                "diff": null
+              },
+              "uuid": "9fd57769-f3af-485d-b248-54aa7fa71654",
+              "parentUUID": "889fa91a-e13d-4761-98a4-7f129909f2de",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "9fd57769-f3af-485d-b248-54aa7fa71654"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 33481,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "6528654f-b406-47bb-8fb1-dcedcff444a8",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newuserCreation.js",
+      "file": "cypress/integration/unidosh/newuserCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c1c911cf-13fd-4a19-baf3-ec574a5a53ba",
+          "title": "New Account creation",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create new account to Login",
+              "fullTitle": "New Account creation Create new account to Login",
+              "timedOut": null,
+              "duration": 19147,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('https://app.unidoshdev.com/login');\ncy.get('.studentSection').click();\ncy.contains('Sign up using your email address').click();\ncy.get('input[name=\"firstname\"]').type('testing-student').should('have.value', 'testing-student');\ncy.get('input[name=\"lastname\"]').type('testing-student').should('have.value', 'testing-student');\ncy.get('#txtRegisterEmailAddress').type('testregistration100@gmail.com').should('have.value', 'testregistration100@gmail.com');\ncy.get('#txtRegisterPassword').type('Test123$').should('have.value', 'Test123$');\ncy.get('#txtRegisterConfirmPassword').type('Test123$').should('have.value', 'Test123$');\ncy.get('#btn_Submit').click();\ncy.server();\ncy.route({\n  method: 'POST',\n  url: 'https://app.unidoshdev.com/register/checkverificationtext',\n  status: 200,\n  response: {\n    \"success\": true,\n    \"matches\": true\n  }\n}).as('verification');\ncy.get('#txtNumber').type('005550006');\ncy.contains('SEND CONFIRMATION CODE').click();\ncy.wait(1000);\ncy.get('.validationList').should('not.have.text', 'Something went wrong, please try again');\ncy.get('#txtVerifyCode1').type('1234');\ncy.contains('VERIFY PHONE NUMBER').click();\ncy.wait('@verification').should('have.property', 'status', 200);\ncy.get('@verification').its('response.body.success').should('eq', true);\ncy.get('@verification').its('response.body.matches').should('eq', true);\ncy.get('#txtUniName').type('Oxford');\ncy.get('#txtStudying').type('Psychalogy');\ncy.get('#txtHometown').type('London');\ncy.get('.pac-container .pac-item').eq(0).click();\ncy.contains('NEXT').click();\ncy.wait(2000);\ncy.get('.modalWindow .rightIcons').click({\n  force: true\n});\ncy.get('#txtMainLocation').type('London');\ncy.get('.pac-container .pac-item').eq(0).click();\ncy.route({\n  method: 'POST',\n  url: 'https://app.unidoshdev.com/register/registerstudent',\n  status: 200,\n  response: {\n    \"success\": true\n  }\n}).as('registration');\ncy.contains('Finish').click();\ncy.wait('@registration').should('have.property', 'status', 200);\ncy.get('@verification').its('response.body.success').should('eq', true);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: expected '<ul.validationList>' not to have text 'Something went wrong, please try again'",
+                "estack": "AssertionError: Timed out retrying: expected '<ul.validationList>' not to have text 'Something went wrong, please try again'\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/newuserCreation.js:28:31)",
+                "diff": ""
+              },
+              "uuid": "aa0db078-761a-4dd7-b0c8-9b2759217a89",
+              "parentUUID": "c1c911cf-13fd-4a19-baf3-ec574a5a53ba",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "aa0db078-761a-4dd7-b0c8-9b2759217a89"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 19147,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "727ada06-0bf0-4d3b-adea-70b1f38a1bcc",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/test.js",
+      "file": "cypress/integration/unidosh/test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "bc436391-7f3c-41c0-8124-cfc27f5b5915",
+          "title": "testing",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "tetewiti",
+              "fullTitle": "testing tetewiti",
+              "timedOut": null,
+              "duration": 1161,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "776c0423-840c-48c8-8542-927c5941e6d9",
+              "parentUUID": "bc436391-7f3c-41c0-8124-cfc27f5b5915",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "776c0423-840c-48c8-8542-927c5941e6d9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1161,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "09d568b5-79fb-4b51-89e0-2ca9f6d15bda",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createBusinessTaskUI.js",
+      "file": "cypress/integration/unidosh/createBusinessTaskUI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7858a573-c45e-446e-b5fb-bfacbebb2141",
+          "title": "Create new Business Task and post",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create and post new Business task as Business user",
+              "fullTitle": "Create new Business Task and post Create and post new Business task as Business user",
+              "timedOut": null,
+              "duration": 19609,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');\nvar category = ['Social Media', 'Web Dev', 'General Admin', 'Influencers', 'Design', 'Promo Staff', 'Photography', 'Blogging', 'Something Else'];\ncy.get('#BusinessCategories li #title').each(function (title, index) {\n  cy.wrap(title).should('contain.text', category[index]);\n});\ncy.get('#BusinessCategories li #title').eq(3).click();\ncy.get('#txtTitle').clear().type('InfluencerTask');\ncy.get('#txtDescription').type('This is for testing the app');\ncy.get('#txtNewTaskRequirement').type('Artificial Intelligence');\ncy.get('span[data-target=\"newTaskRequirementSubmitButton\"]').click();\ncy.get('.bottomRightActionLabel').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Where & When');\ncy.get('#locationButton .toggleButton').eq(1).click();\ncy.get('#txtDueDT').click();\ncy.get('.today.active').click();\ncy.get('.bottomRightActionLabel').click();\ncy.get('#taskerCounter').clear().type('500');\ncy.get('#txtBudget').type(5);\ncy.get('#postTaskButton').click();\ncy.get('.postjobContent').click();\ncy.wait(500);\ncy.get('.tabHolder li').filter('.active').find('span').should('contain', 'Posted');\ncy.get('#buyingList .taskItemHolder').should('have.length.greaterThan', 1);",
+              "err": {},
+              "uuid": "d11207e8-ada7-4897-9335-07060e8ca95d",
+              "parentUUID": "7858a573-c45e-446e-b5fb-bfacbebb2141",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d11207e8-ada7-4897-9335-07060e8ca95d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 19609,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "3cf07364-fb20-41d8-be15-99c213a335cd",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createTaksAPI.js",
+      "file": "cypress/integration/unidosh/createTaksAPI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "99f98392-b2de-4653-bff1-effc68bd6340",
+          "title": "Create new task using API",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Add new task through API",
+              "fullTitle": "Create new task using API Add new task through API",
+              "timedOut": null,
+              "duration": 21459,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "var number;\nvar date = (0, _utils.getFutureDate)();\ncy.log(date);\ncy.request('POST', '/jobs/addtask', {\n  'TaskId': 0,\n  'CategoryId': 4,\n  'Title': 'TestThroughAPI',\n  'Description': 'This is for testing through API',\n  'Images': [],\n  'GoogleLocation': '',\n  'Location': 'Essex',\n  'Lat': '',\n  'Lon': '',\n  'LocationType': 1,\n  'DueDT': '',\n  'Budget': 5,\n  'BudgetType': 1,\n  'TaskerCount': '1',\n  'Duration': '',\n  'TaskRequirement1': 'Testinggdgd',\n  'IsTaskPosted': false,\n  'IsImageUpdated': false\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('success').to.equal(true);\n  var respBody = response.body;\n  number = respBody['id'];\n  cy.log(number);\n  var result = JSON.parse(JSON.stringify(response.body.data));\n  console.log(result);\n  var usrId = result.userId;\n  console.log(usrId);\n});\ncy.request('POST', '/publicjobs/BudgetPerTask', {\n  'Budget': '5',\n  'BudgetType': 1,\n  'Duration': '',\n  'TaskerCount': '1'\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('duration').to.equal(1);\n});\ncy.request('POST', '/jobs/addtask', {\n  'TaskId': number,\n  'CategoryId': 4,\n  'Title': 'TestThroughAPI',\n  'Description': 'This is for testing through API',\n  'Images': [],\n  'GoogleLocation': 'Romford RM2, UK',\n  'Location': 'Essex',\n  'Lat': 51.6042029,\n  'Lon': 0.2300152000000001,\n  'LocationType': 1,\n  'DueDT': date,\n  'Budget': 5,\n  'BudgetType': 1,\n  'TaskerCount': '1',\n  'Duration': '',\n  'TaskRequirement1': 'Technical',\n  'IsTaskPosted': true,\n  'IsImageUpdated': false\n}).then(function (response) {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('success').to.equal(true);\n  expect(response.body).to.have.property('taskPosted').to.equal(true);\n});\ncy.wait(1500);\ncy.visit('/');\ncy.get('#Onboardingclose').click();\ncy.get('.skipbutton').click();\ncy.get('#imgnonActivity').click();\ncy.get('#buyingList .taskTitle').contains('TestThroughAPI');",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find element: `#buyingList .taskTitle`, but never found it.",
+                "estack": "AssertionError: Timed out retrying: Expected to find element: `#buyingList .taskTitle`, but never found it.\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/createTaksAPI.js:112:8)",
+                "diff": null
+              },
+              "uuid": "96e6e82f-eeea-4963-809f-c420557e4dd1",
+              "parentUUID": "99f98392-b2de-4653-bff1-effc68bd6340",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "96e6e82f-eeea-4963-809f-c420557e4dd1"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 21459,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "6300f821-4805-4720-b8a4-7e1eed102eec",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/createTaskUI.js",
+      "file": "cypress/integration/unidosh/createTaskUI.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1b5e9f51-e804-42da-8de8-fb42fef1a212",
+          "title": "Create new Task and post",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create and post new task as Home user",
+              "fullTitle": "Create new Task and post Create and post new task as Home user",
+              "timedOut": null,
+              "duration": 25180,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('https://app.unidoshdev.com/login');\ncy.contains('Home & Business').click();\ncy.contains('LOG IN').click({\n  force: true\n});\ncy.get('#txtLogInEmail').type('bothees@gmail.com');\ncy.get('#txtLogInPassword').type('Test123$');\ncy.get('#btn_Login').click();\ncy.get('.category-btn b').should('contain', 'Bothi-test');\nvar category = ['Delivery', 'Cleaning', 'Extra Hands', 'Flat Pack', 'Tech Help', 'Organising', 'Pets', 'Child Care', 'Something Else'];\ncy.get('#HomeCategories li #title').each(function (title, index) {\n  cy.wrap(title).should('contain.text', category[index]);\n});\ncy.get('#HomeCategories li #title').eq(0).click();\ncy.get('#txtTitle').clear().type('TestingTask');\ncy.get('#txtDescription').type('This is for testing the app');\ncy.get('#txtNewTaskRequirement').type('Testingssgsgsgs');\ncy.get('span[data-target=\"newTaskRequirementSubmitButton\"]').click();\ncy.get('#postTaskButton').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Where & When');\ncy.get('#txtLocation').type('RM3');\ncy.get('.pac-container .pac-item').eq(0).click();\ncy.get('#txtDueDT').click();\ncy.get('.today.active').click();\ncy.get('#postTaskButton').click();\ncy.get('#tabHolders li').filter('.active').should('contain', 'Budget');\ncy.get('#postTaskButton').click(); // cy.get('.total-payment').should('have.attr','data-page')\n// cy.get('#drpPaymentMethodall').select('Add new payment method')\n// cy.wait(500)\n// const getIframeDocument = () => {\n//     return cy\n//     .get('iframe[name=\"__privateStripeFrame13\"]')\n//     // Cypress yields jQuery element, which has the real\n//     // DOM element under property \"0\".\n//     // From the real DOM iframe element we can get\n//     // the \"document\" element, it is stored in \"contentDocument\" property\n//     // Cypress \"its\" command can access deep properties using dot notation\n//     // https://on.cypress.io/its\n//     .its('0.contentDocument').should('exist')\n//   }    \n//   const getIframeBody = () => {\n//     // get the document\n//     return getIframeDocument()\n//     // automatically retries until body is loaded\n//     .its('body').should('not.be.undefined')\n//     // wraps \"body\" DOM element to allow\n//     // chaining more Cypress commands, like \".find(...)\"\n//     .then(cy.wrap)\n//   }\n// //   cy.wait(5000)\n// //   cy.get('.__PrivateStripeElement > iframe').then($element => {\n// //     const $body = $element.contents().find('body')\n// //     let stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"cardnumber\"]').type('5555555555554444')\n// //     stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"exp-date\"]').click().type('0121')\n// //     stripe = cy.wrap($body)\n// //     stripe.find('input[name=\"cvc\"]').click().type('111')\n// //   })  \n// getIframeBody().find('input[name=\"cardnumber\"]').click({force:true}).type('5555555555554444',{force:true})\n// getIframeBody().find('input[name=\"exp-date\"]').click().type('0121')\n// getIframeBody().find('input[name=\"cvc\"]').click().type('111')\n// cy.get('.submitPaymentButton').click({force:true})\n// cy.get('#drpPaymentMethodall').select('Card ending 4444')\n// cy.get('.btn-primary').click()\ncy.get('.congo-tasker').should('contain.text', 'Bothi-test');\ncy.get('.postjobContent').click();\ncy.wait(500);\ncy.get('.tabHolder li').filter('.active').find('span').should('contain', 'Posted');\ncy.get('#buyingList .taskItemHolder').should('have.length.greaterThan', 1);",
+              "err": {},
+              "uuid": "ad705fca-47df-49ba-a01b-01b6825f3da7",
+              "parentUUID": "1b5e9f51-e804-42da-8de8-fb42fef1a212",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ad705fca-47df-49ba-a01b-01b6825f3da7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25180,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "b99bc4b1-22d1-444d-bb4a-8cd32bb4bf0b",
+          "title": "Database connection to get values",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Get data from DB",
+              "fullTitle": "Database connection to get values Get data from DB",
+              "timedOut": null,
+              "duration": 10920,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.task('queryDb', 'SELECT * FROM `Unidosh`.`Tasks`').then(function (rows) {\n  console.log(rows);\n  for (var i = 0; i < rows.length; i++) {\n    var row = rows[i];\n    console.log(row.Description);\n    console.log(row.BudgetType);\n  }\n});\ncy.task('queryDb', 'SELECT * FROM `Unidosh`.`Users`').then(function (rows) {\n  console.log(rows);\n  for (var i = 0; i < rows.length; i++) {\n    var row = rows[i];\n    console.log(row.FirstName);\n    console.log(row.LastName);\n    console.log(row.BusinessName);\n  }\n});",
+              "err": {
+                "message": "CypressError: `cy.task('queryDb')` failed with the following error:\n\n> connect ETIMEDOUT",
+                "estack": "CypressError: `cy.task('queryDb')` failed with the following error:\n\n> connect ETIMEDOUT\n    at https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:158710:19\n    at tryCatcher (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:8069:18)\n    at _drainQueueStep (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4663:12)\n    at _drainQueue (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4656:9)\n    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4672:5)\n    at Async.drainQueues (https://app.unidoshdev.com/__cypress/runner/cypress_runner.js:4542:14)\nFrom Your Spec Code:\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/createTaskUI.js:83:8)\n\nFrom Node.js Internals:\n  Error: connect ETIMEDOUT\n      at Connection._handleConnectTimeout (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/Connection.js:409:13)\n      at Object.onceWrapper (events.js:299:28)\n      at Socket.emit (events.js:210:5)\n      at Socket._onTimeout (net.js:468:8)\n      at listOnTimeout (internal/timers.js:531:17)\n      at processTimers (internal/timers.js:475:7)\n  --------------------\n      at Protocol._enqueue (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/protocol/Protocol.js:144:48)\n      at Protocol.handshake (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/protocol/Protocol.js:51:23)\n      at Connection.connect (/Users/bothi/unidosh-Automation/node_modules/mysql/lib/Connection.js:116:18)\n      at queryTestDb (/Users/bothi/unidosh-Automation/cypress/plugins/index.js:48:13)\n      at queryDb (/Users/bothi/unidosh-Automation/cypress/plugins/index.js:66:11)\n      at invoke (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/task.js:41:14)\n      at /Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:41:14\n      at tryCatcher (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/util.js:16:23)\n      at Function.Promise.attempt.Promise.try (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/method.js:39:29)\n      at Object.wrapChildPromise (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:40:23)\n      at Object.wrap (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/task.js:47:8)\n      at execute (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/run_plugins.js:142:12)\n      at EventEmitter.<anonymous> (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/run_plugins.js:235:5)\n      at EventEmitter.emit (events.js:210:5)\n      at process.<anonymous> (/Users/bothi/Library/Caches/Cypress/4.12.1/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/util.js:19:22)\n      at process.emit (events.js:210:5)",
+                "diff": null
+              },
+              "uuid": "9c11473c-a9c2-4cda-870b-c0ba18883d6b",
+              "parentUUID": "b99bc4b1-22d1-444d-bb4a-8cd32bb4bf0b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "9c11473c-a9c2-4cda-870b-c0ba18883d6b"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 10920,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6a2ce634-9695-49ae-9dc6-f3f88260a4c2",
+          "title": "notifications",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be enabled",
+              "fullTitle": "notifications should be enabled",
+              "timedOut": null,
+              "duration": 98,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "expect((0, _cypressBrowserPermissions.isPermissionAllowed)('notifications')).to.be[\"true\"];\nexpect((0, _cypressBrowserPermissions.isPermissionAllowed)('geolocation')).to.be[\"true\"];",
+              "err": {},
+              "uuid": "346e3068-fbd6-48c6-9998-204f02569566",
+              "parentUUID": "6a2ce634-9695-49ae-9dc6-f3f88260a4c2",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "346e3068-fbd6-48c6-9998-204f02569566"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 98,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "da52586e-2516-46e1-8288-8150d1a9f7a7",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newHomeAccountCreation.js",
+      "file": "cypress/integration/unidosh/newHomeAccountCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "16aa197f-4aa6-4488-8cd3-d9265964999e",
+          "title": "Create new Home account using twillio Magic Number",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "New Home account creation",
+              "fullTitle": "Create new Home account using twillio Magic Number New Home account creation",
+              "timedOut": null,
+              "duration": 17071,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "Cypress.Cookies.debug(true);\nemail = (0, _utils.randomEmail)();\ncy.userCreation(email).then(function (body) {\n  otpcode = body.messages[0].body.split(':')[1].trim();\n  cy.request('POST', '/register/checkverificationtext', {\n    'Number': '+12053584549',\n    'Code': otpcode\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('matches').to.equal(true);\n  });\n  cy.log(otpcode);\n  cy.request('POST', '/register/registerpublic', {\n    'Email': email,\n    'Password': '1234',\n    'FirstName': 'Home-Bothi',\n    'LastName': 'Test',\n    'ReferralCode': '',\n    'Mobile': '+12053584549',\n    'GoogleAccessKey': '',\n    'FacebookAccessKey': '',\n    'SocialProfilePictureUrl': '',\n    'ProfilePictureBase64': '',\n    'verificationCode': otpcode,\n    'DeviceToken': '',\n    'DeviceType': 0,\n    'SecurityEmailtoken': ''\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('success').to.equal(true);\n  });\n});\ncy.visit('/login'); // cy.get('#txtLogInEmail').type(randomemail)\n// cy.get('#txtLogInPassword').type('1234')\n// cy.get('#btn_Login').submit()\ncy.get('#Onboardingclose').click();\ncy.get('.skipbutton').click();\ncy.get('.category-btn').should('contain', 'Test');\ncy.get('#home').should('have.class', 'active');\ncy.get('#HomeCategories li').should('have.length', 9);",
+              "err": {
+                "message": "AssertionError: Timed out retrying: expected '<div.category-btn.cursor-pointer>' to contain 'Test'",
+                "estack": "AssertionError: Timed out retrying: expected '<div.category-btn.cursor-pointer>' to contain 'Test'\n    at Context.eval (https://app.unidoshdev.com/__cypress/tests?p=cypress/integration/unidosh/newHomeAccountCreation.js:48:29)",
+                "diff": null
+              },
+              "uuid": "6502419c-0596-47a1-8be7-da00f2db4528",
+              "parentUUID": "16aa197f-4aa6-4488-8cd3-d9265964999e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "6502419c-0596-47a1-8be7-da00f2db4528"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 17071,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "6f5389c1-7ad9-4e97-8a62-55478ec7bf47",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newStudentAccountCreation.js",
+      "file": "cypress/integration/unidosh/newStudentAccountCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "578dff22-f6b6-4bee-a27d-d7d8ca8b650c",
+          "title": "Create new account using twillio Magic Number",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "New Student account creation",
+              "fullTitle": "Create new account using twillio Magic Number New Student account creation",
+              "timedOut": null,
+              "duration": 3749,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var num = (0, _utils.randomNumber)();\nCypress.Cookies.debug(true);\nrandomemail = 'Auto-test' + num + '@gmail.com';\ncy.userCreation(randomemail).then(function (body) {\n  cy.wait(2000);\n  otpcode = body.messages[0].body.split(':')[1].trim();\n  cy.request('POST', '/register/checkverificationtext', {\n    'Number': '+12053584549',\n    'Code': otpcode\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('matches').to.equal(true);\n  });\n  cy.log(otpcode);\n  cy.log(randomemail);\n  cy.request('POST', '/register/registerstudent', {\n    'Email': randomemail,\n    'Password': '1234',\n    'FirstName': 'Student-Bothi' + num,\n    'LastName': 'Test',\n    'ReferralCode': '',\n    'Mobile': '+12053584549',\n    'University': 'Oxford',\n    'Study': 'Test',\n    'Hometown': 'Romford',\n    'StudyType': 'School',\n    'DateOfBirth': '01/01/95',\n    'GoogleAccessKey': '',\n    'FacebookAccessKey': '',\n    'SocialProfilePictureUrl': '',\n    'Alerts': '4',\n    'ProfilePictureBase64': '',\n    'verificationCode': otpcode,\n    'DeviceToken': '',\n    'DeviceType': 0,\n    'SecurityEmailtoken': '',\n    'HasEmailAlerts': true,\n    'HasPushAlerts': true,\n    'MainLocation': 'London, UK',\n    'MainLocationLat': 51.5073509,\n    'MainLocationLon': -0.1277583,\n    'MainLocationName': 'London',\n    'ShouterInstagram': '',\n    'ShouterAlertId': 0\n  }).then(function (response) {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('success').to.equal(true);\n  });\n}); // cy.visit('/login')\n// cy.get('#Onboardingclose').click()\n// cy.get('.skipbutton').click()\n// cy.get('.student-home .title').should('contain','Tasks')",
+              "err": {},
+              "uuid": "11aa0da8-21ec-4089-ab01-4da3347779c8",
+              "parentUUID": "578dff22-f6b6-4bee-a27d-d7d8ca8b650c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "11aa0da8-21ec-4089-ab01-4da3347779c8"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 3749,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "1a072edc-5459-40e9-83e5-cbc50bddda85",
+      "title": "",
+      "fullFile": "cypress/integration/unidosh/newuserCreation.js",
+      "file": "cypress/integration/unidosh/newuserCreation.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "43708dcf-a1da-428e-82ad-143f892a916e",
+          "title": "New Account creation",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Create new account to Login",
+              "fullTitle": "New Account creation Create new account to Login",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "25dab62c-24ab-4c5a-8421-1511a279094a",
+              "parentUUID": "43708dcf-a1da-428e-82ad-143f892a916e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [
+            "25dab62c-24ab-4c5a-8421-1511a279094a"
+          ],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.1.1"
+    },
+    "marge": {
+      "options": {
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.1.0"
+    }
+  }
+}

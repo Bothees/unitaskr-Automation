@@ -1,0 +1,27 @@
+{
+    "projectId": "x3397u",
+    "defaultCommandTimeout": 8000,
+    "pageLoadTimeout": 30000,
+    "baseUrl": "https://app.unidoshdev.com",
+    "reporter":"../node_modules/mochawesome/src/mochawesome.js",
+    "reporterOptions": {
+      "overwrite":false,
+      "html":false,
+      "json":true
+    },
+    "env": {
+        "db":
+              {  
+                "host": "unidosh-web-stage.cfbgpzxc398v.eu-west-1.rds.amazonaws.com",
+                "user": "unidev",
+                "password": "VHUZf.Njob=DTEx*Ce8oR+4#"
+              },
+        "browserPermissions": {
+                "notifications": "allow",
+                "geolocation": "allow"
+                }
+    },
+    "chromeWebSecurity": false,
+    "viewportWidth": 1280,
+    "viewportHeight": 720
+}
