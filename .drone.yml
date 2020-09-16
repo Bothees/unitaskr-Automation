@@ -4,11 +4,9 @@ name: run_tests
 steps:
   - name: testing
     image: cypress/browsers:chrome69
-    environment:
-      CYPRESS_baseUrl:https://app.unidoshdev.com
     commands:
-      - $(npm bin)/cypress install
-      - $(npm bin)/cypress run --browser chrome --spec cypress/integration/unidosh/**/*
+      - npm install
+      - npx cypress run --browser chrome --spec cypress/integration/unidosh/**/*
 trigger:
   branch:
     - master
