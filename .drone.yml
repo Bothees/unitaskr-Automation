@@ -24,4 +24,4 @@ create_cronjob_dev:
   when:
     branch: 
       - master
-    event: push
+    event: cron
