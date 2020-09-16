@@ -14,7 +14,7 @@ describe('Create new Home account using twillio Magic Number',() => {
 
 		cy.userCreation(email).then((body) => {
 
-			otpcode = body.messages[0].body.split(':')[1].trim();
+			// otpcode = body.messages[0].body.split(':')[1].trim();
 
 			cy.request('POST','/register/checkverificationtext',{
 				'Number':'+12053584549',

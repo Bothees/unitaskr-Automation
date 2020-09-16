@@ -8,7 +8,7 @@ describe('Create new task using API',() => {
 
 		cy.userCreation(email).then((body) => {
 
-			const otpcode = body.messages[0].body.split(':')[1].trim();
+			// const otpcode = body.messages[0].body.split(':')[1].trim();
         
 			cy.request('POST','/register/checkverificationtext',{
 				'Number':'+12053584549',

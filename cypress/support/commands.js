@@ -35,23 +35,23 @@ Cypress.Commands.add('userCreation', (email) => {
 		expect(response.body).to.have.property('exists').to.equal(false);
 	});
 
-	cy.request('POST','/register/sendverificationtext',
-		{
-			'Number':'+12053584549'
-		})
-		.then((response) => {
-			expect(response.status).to.eq(200);
-			expect(response.body).to.have.property('success').to.equal(true);
-		});
+	// cy.request('POST','/register/sendverificationtext',
+	// 	{
+	// 		'Number':'+12053584549'
+	// 	})
+	// 	.then((response) => {
+	// 		expect(response.status).to.eq(200);
+	// 		expect(response.body).to.have.property('success').to.equal(true);
+	// 	});
             
-	return cy.request({
-		method:'GET',
-		url:'https://api.twilio.com/2010-04-01/Accounts/AC767eff0aa8c33cdf4428c534861ee1e4/Messages.json',
-		auth: {
-			username: 'AC767eff0aa8c33cdf4428c534861ee1e4',
-			password: 'c7cbb20c74329ce4c163b324e6c52e49',
-			AuthMethod: 'BasicAuth'
-		}
-	}).its('body');
+	// return cy.request({
+	// 	method:'GET',
+	// 	url:'https://api.twilio.com/2010-04-01/Accounts/AC767eff0aa8c33cdf4428c534861ee1e4/Messages.json',
+	// 	auth: {
+	// 		username: 'AC767eff0aa8c33cdf4428c534861ee1e4',
+	// 		password: 'c7cbb20c74329ce4c163b324e6c52e49',
+	// 		AuthMethod: 'BasicAuth'
+	// 	}
+	// }).its('body');
 });
 
